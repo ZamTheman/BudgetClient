@@ -1,0 +1,84 @@
+<form *ngIf="!awaitingData" fxLayout="column" [formGroup]="expenseForm">
+  <mat-form-field>
+    <mat-select 
+        placeholder="Typ" 
+        ngModel 
+        formControlName="expenseType">
+        <mat-option 
+          *ngFor="let type of expenseTypes" 
+          [value]="type.id">{{type.name}}
+        </mat-option>
+    </mat-select> 
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+      type="number" 
+      placeholder="Belopp" 
+      matInput
+      formControlName="amount">
+      <span matSuffix> kr</span>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select 
+      placeholder="Fördelning" 
+      formControlName="split">
+      <mat-option 
+        *ngFor="let split of splits" 
+        [value]="split">{{split}}</mat-option>
+    </mat-select> 
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+      matInput 
+      [matDatepicker]="picker" 
+      formControlName="date" 
+      placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+      type="text" 
+      matInput 
+      placeholder="Kommentar" 
+      formControlName="comment">
+  </mat-form-field>
+  <section>
+      <mat-checkbox 
+        formControlName="copyWithAmount">Kopiera med belopp</mat-checkbox>
+      <mat-checkbox 
+        formControlName="copyWithoutAmount">Kopiera utan belopp</mat-checkbox>
+  </section>
+  <div class="button-row">
+    <button 
+      type="button" 
+      (click)="onNewExpense()" 
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Skapa nytt utlägg">create</i>
+      </button>
+    <button 
+      type="button" 
+      (click)="onExpenseSubmit()" 
+      [disabled]="!expenseForm.valid || !expenseForm.dirty"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Spara utlägg">save</i>
+      </button>
+    <button 
+      type="button"
+      (click)="onNewExpense()" 
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Avbryt">cancel</i>
+      </button>
+    <button 
+      type="button"
+      (click)="onDeleteExpense()"
+      [disabled]="expenseForm.value['id'] < 1"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Ta bort utlägg">delete</i>
+      </button>
+  </div>
+</form>
+<div *ngIf="awaitingData">
+  <mat-spinner></mat-spinner>
+  <p>{{ awaitingOnMessage }}</p>
+</div>

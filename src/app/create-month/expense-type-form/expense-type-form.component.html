@@ -1,0 +1,37 @@
+<form [formGroup]="newExpenseTypeForm">
+  <mat-form-field>
+    <input 
+      matInput 
+      placeholder="Ny utgiftstyp" 
+      formControlName="newExpenseTypeName">
+  </mat-form-field>
+  <div class="button-row">
+    <button type="button" 
+      (click)="onNewExpenseTypeSubmit()" 
+      [disabled]="!newExpenseTypeForm.valid" 
+      mat-raised-button color="primary">Spara</button>
+    <button type="reset" mat-raised-button color="basic">Avbryt</button>
+  </div>
+</form>
+<form [formGroup]="deleteExpenseTypeForm">
+  <mat-form-field>
+    <mat-select 
+        placeholder="Ta bort" 
+        formControlName="expenseType">
+        <mat-option 
+          *ngFor="let type of expenseTypes" 
+          [value]="type.id">{{type.name}}
+        </mat-option>
+    </mat-select> 
+  </mat-form-field>
+  <div class="button-row">
+    <button 
+      (click)="onDeleteExpenseTypeSubmit()" 
+      [disabled]="!deleteExpenseTypeForm.valid" 
+      mat-raised-button color="warn">Radera</button>
+    <button 
+      type="reset" 
+      mat-raised-button color="basic">Avbryt</button>
+  </div>
+</form>
+

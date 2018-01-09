@@ -1,0 +1,33 @@
+<form action="" [formGroup]="salaryForm" (ngSubmit)="onSalarySubmit()">
+  <mat-form-field>
+    <input 
+      type="number" 
+      matInput 
+      placeholder="Lön Marie" 
+      formControlName="incomeMarie">
+      <span matSuffix> kr</span>
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+      type="number" 
+      matInput 
+      placeholder="Lön Samuel"
+      formControlName="incomeSamuel">
+      <span matSuffix> kr</span>
+  </mat-form-field>
+  <div class="button-row">
+    <button 
+      type="button" 
+      (click)="onSalarySubmit()" 
+      [disabled]="!salaryForm.valid || !salaryForm.dirty"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Spara lön">save</i>
+      </button>
+    <button 
+      type="button"
+      (click)="onSalaryReset()"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Avbryt">cancel</i>
+      </button>
+  </div>
+</form>

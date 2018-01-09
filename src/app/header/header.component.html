@@ -1,0 +1,10 @@
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item routerLink="/createMonth"> Skapa månad </button>
+  <button mat-menu-item> Help </button>
+</mat-menu>
+
+<mat-card>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+ </button>
+</mat-card>

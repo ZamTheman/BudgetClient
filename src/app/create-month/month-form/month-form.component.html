@@ -1,0 +1,6 @@
+<input 
+    type="date" 
+    matInput 
+    (input)="onDateChanged(activeMonth.value)"  
+    value='{{ dt | date:"yyyy-MM-dd" }}' 
+    #activeMonth/>

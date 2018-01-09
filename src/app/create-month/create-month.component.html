@@ -1,0 +1,99 @@
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="5px">
+  <div fxFlex="20" fxFlex.md="30" fxFlex.xs="100" fxFlex.sm="100">
+    <mat-accordion multi="true">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Månad
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-month-form></app-month-form>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="expenseExpanded" (closed)="expenseExpanded = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Utgifter
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+          <app-expense-form></app-expense-form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Löner
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-salary-form></app-salary-form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Utgiftstyper
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-expense-type-form></app-expense-type-form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Summering
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Totalt: {{ summaryTotal | swedishCurrency }} </p>
+            <p>Totalt Marie: {{ summaryTotalMarie | swedishCurrency }}</p>
+            <p>Totalt Samuel: {{ summaryTotalSamuel | swedishCurrency }} </p>
+            <p>Samuel till Marie: {{ summarySamuelToMarie | swedishCurrency }}</p>
+          </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="example-container mat-elevation-z8" fxFlex="100" fxFlex.gt-sm>
+    <div class="example-header">
+      <button 
+        type="button"
+        (click)="getCopiedExpenses()"
+        fxFlex="10"
+        mat-icon-button color="basic">
+          <i class="material-icons" matTooltip="Hämta kopierade från tidigare månad">get_app</i>
+      </button>
+      <mat-form-field fxFlex="90">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+  
+      <ng-container matColumnDef="expenseType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Utgift </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.expenseType}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Belopp </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount | swedishCurrency }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="comment">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-md> Kommentar </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxHide fxShow.gt-md> {{element.comment}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="split">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-md> Fördelning </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxHide fxShow.gt-md> {{element.split}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Datum </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.date.substring(0,10)}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row (click)="expenseSelected(row.id)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator 
+      #paginator 
+      [pageSize]="20" 
+      [pageSizeOptions]="[10, 20, 50]">
+    </mat-paginator>
+  </div>
+</div>
