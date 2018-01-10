@@ -6,32 +6,18 @@
       formControlName="newExpenseTypeName">
   </mat-form-field>
   <div class="button-row">
-    <button type="button" 
+    <button 
+      type="button" 
       (click)="onNewExpenseTypeSubmit()" 
-      [disabled]="!newExpenseTypeForm.valid" 
-      mat-raised-button color="primary">Spara</button>
-    <button type="reset" mat-raised-button color="basic">Avbryt</button>
-  </div>
-</form>
-<form [formGroup]="deleteExpenseTypeForm">
-  <mat-form-field>
-    <mat-select 
-        placeholder="Ta bort" 
-        formControlName="expenseType">
-        <mat-option 
-          *ngFor="let type of expenseTypes" 
-          [value]="type.id">{{type.name}}
-        </mat-option>
-    </mat-select> 
-  </mat-form-field>
-  <div class="button-row">
+      [disabled]="!newExpenseTypeForm.valid || !newExpenseTypeForm.dirty"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Spara ny typ">create</i>
+      </button>
     <button 
-      (click)="onDeleteExpenseTypeSubmit()" 
-      [disabled]="!deleteExpenseTypeForm.valid" 
-      mat-raised-button color="warn">Radera</button>
-    <button 
-      type="reset" 
-      mat-raised-button color="basic">Avbryt</button>
+      type="reset"
+      mat-icon-button color="basic">
+        <i class="material-icons" matTooltip="Avbryt">cancel</i>
+      </button>
   </div>
 </form>
 

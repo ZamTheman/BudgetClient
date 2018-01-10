@@ -105,10 +105,7 @@ export class CreateMonthComponent implements OnInit, OnDestroy {
 
   private calculateSummary(salary: Salary, expenses: Expense[]){
     if(salary.incomeMarie === 0 || salary.incomeSamuel === 0){
-      this.summaryTotal = "";
-      this.summaryTotalMarie = "";
-      this.summaryTotalSamuel = "";
-      this.summarySamuelToMarie = "";
+      this.summaryTotal = this.summaryTotalMarie = this.summaryTotalSamuel = this.summarySamuelToMarie = 0;
       return;
     }
     let totMarie = 0;

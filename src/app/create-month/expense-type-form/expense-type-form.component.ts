@@ -11,14 +11,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class ExpenseTypeFormComponent implements OnInit {
   expenseTypes: ExpenseType[];
   newExpenseTypeForm: FormGroup;
-  deleteExpenseTypeForm: FormGroup;
   
   constructor(private expenseTypeService: ExpenseTypeService) { }
 
   ngOnInit() {
     this.expenseTypes = this.expenseTypeService.getExpenseTypes();
     this.newExpenseTypeForm = this.createNewExpenseTypeForm();
-    this.deleteExpenseTypeForm = this.createDeleteExpenseTypeForm();
   }
 
   createNewExpenseTypeForm(){
@@ -27,20 +25,10 @@ export class ExpenseTypeFormComponent implements OnInit {
     })
   }
 
-  createDeleteExpenseTypeForm(){
-    return new FormGroup({
-      'expenseType': new FormControl(null, Validators.required),
-    })
-  }
-
   onNewExpenseTypeSubmit(){
     let expenseType = this.convertExpenseTypeFormToExpenseType();
     this.expenseTypeService.addExpenseType(expenseType);
     this.newExpenseTypeForm = this.createNewExpenseTypeForm();
-  }
-
-  onDeleteExpenseTypeSubmit(){
-    this.deleteExpenseTypeForm.reset();
   }
 
   private convertExpenseTypeFormToExpenseType(){
