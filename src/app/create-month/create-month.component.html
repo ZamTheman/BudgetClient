@@ -41,16 +41,16 @@
           </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <div class="example-container mat-elevation-z8" fxFlex="100" fxFlex.gt-sm>
-    <div class="example-header">
+  <div class="example-container mat-elevation-z2" fxFlex="100" fxFlex.gt-sm>
+    <div class="example-header" fxLayoutGap="35px" fxLayout="row">
       <button 
         type="button"
         (click)="getCopiedExpenses()"
-        fxFlex="10"
+        fxFlex="25px"
         mat-icon-button color="basic">
           <i class="material-icons" matTooltip="Hämta kopierade från tidigare månad">get_app</i>
       </button>
-      <mat-form-field fxFlex="90">
+      <mat-form-field fxFlex>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
     </div>

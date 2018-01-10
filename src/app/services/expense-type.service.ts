@@ -41,7 +41,7 @@ export class ExpenseTypeService {
   private requestGetExpenseTypes(){
     this.httpClient.get<ExpenseType[]>(this.apiEndpoint).subscribe(
       (data) => {
-        this.expenseTypes = data;
+        this.expenseTypes = data.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1: 0);});
         this.expenseTypesChanged.next();
       }
     )

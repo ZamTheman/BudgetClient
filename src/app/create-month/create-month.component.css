@@ -40,3 +40,7 @@ mat-row:nth-child(odd){
 .mat-card {
     padding-bottom: 0;
 }
+
+.mat-icon-button{
+    padding-top: 8px;
+}
