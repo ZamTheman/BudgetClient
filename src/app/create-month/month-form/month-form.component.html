@@ -1,6 +1,22 @@
-<input 
-    type="date" 
-    matInput 
-    (input)="onDateChanged(activeMonth.value)"  
-    value='{{ dt | date:"yyyy-MM-dd" }}' 
-    #activeMonth/>
+<form fxLayout="row" fxLayoutGap="25px" [formGroup]="monthForm">
+    <mat-form-field fxFlex="30">
+        <mat-select 
+            placeholder="År" 
+            formControlName="year"
+            (selectionChange) = "selectedDateChanged()">
+            <mat-option 
+            *ngFor="let year of years" 
+            [value]="year">{{ year }}</mat-option>
+        </mat-select> 
+    </mat-form-field>
+    <mat-form-field fxFlex="40">
+        <mat-select 
+            placeholder="Månad" 
+            formControlName="month"
+            (selectionChange) = "selectedDateChanged()">
+            <mat-option 
+            *ngFor="let month of months" 
+            [value]="month">{{ month }}</mat-option>
+        </mat-select> 
+    </mat-form-field>
+</form>

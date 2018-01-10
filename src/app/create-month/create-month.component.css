@@ -16,7 +16,9 @@
 
 .mat-table {
     overflow: auto;
-    max-height: 500px;
+    /* max-height: 500px; */
+    max-height: 70vh;
+    
 }
 
 section{
@@ -33,4 +35,8 @@ section{
 
 mat-row:nth-child(odd){
     background-color:#F3F3F3;
+}
+
+.mat-card {
+    padding-bottom: 0;
 }
