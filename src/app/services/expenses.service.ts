@@ -2,14 +2,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { Expense } from '../models/expense';
 import { Subject } from 'rxjs/Subject';
 import { ExpenseType } from '../models/expenseType';
-// import { Http, Response } from '@angular/http';
 import { Response } from '@angular/http';
 import { ExpenseTypeService } from './expense-type.service';
 import { MonthService } from './month.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ExpenseFormComponent } from '../create-month/expense-form/expense-form.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppSettingsService } from './app-settings.service';
+import { HttpHeaders } from '@angular/common/http/src/headers';
 
 @Injectable()
 export class ExpensesService {
@@ -131,8 +131,13 @@ export class ExpensesService {
   }
 
   private requestExpensesForMonth(date: Date){
-    let formatedDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-1";
-    return this.httpClient.get<Expense[]>(this.apiEndPoint + formatedDate)
+    const formatedDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-1";
+    const paramsObject = new HttpParams().set(
+      'startDate', formatedDate
+    )
+    return this.httpClient.get<Expense[]>(this.apiEndPoint, {
+      params: paramsObject
+    }) 
       .map(
         (expenses) => {
           this.addExpenseTypeToExpens(expenses);
