@@ -85,6 +85,12 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row (click)="expenseSelected(row.id)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-
+    <div id="spinnerContainer" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="errorContainer mat-elevation-z2" *ngIf="isError">
+      <h2>Något gick fel</h2>
+      <p>Kunde inte koppla upp mot servern</p>
+    </div>
   </div>
 </div>

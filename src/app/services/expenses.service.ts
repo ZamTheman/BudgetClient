@@ -16,6 +16,8 @@ export class ExpensesService {
   expenseChanged = new Subject<Expense>();
   expensesChanged = new Subject<Expense[]>();
   addExpenseReturned = new Subject<number>();
+  errorReturned = new Subject();
+  expensesRequestSent = new Subject();
   monthChanged = new Subscription();
   expenses = new Array<Expense>();
   apiEndPoint: string;
@@ -42,17 +44,21 @@ export class ExpensesService {
   }
 
   private getData(date = new Date()){
+    this.expensesRequestSent.next();
     this.requestExpensesForMonth(date).subscribe(
-      (data) => {
+      data => {
         this.expenses = data;
         this.expensesChanged.next(data);
+      },
+      err => {
+        this.errorReturned.next();
       }
     );
   }
   
   copyExpensesFromLastMonth(date: Date){
     this.requestExpensesForMonth(date).subscribe(
-      (data) => {
+      data => {
         this.addExpensesToCopyToActiveMonth(date, data)
       }
     );
@@ -97,7 +103,7 @@ export class ExpensesService {
   private requestAddExpense(expense: Expense){
     this.httpClient.post(this.apiEndPoint, expense)
     .subscribe(
-      (data) => {
+      data => {
         this.addExpenseReturned.next(parseInt(data.toString()));
       }
     )
@@ -106,7 +112,7 @@ export class ExpensesService {
   private requestAddExpenses(expenses: Expense[]){
     this.httpClient.post(this.apiEndPoint + "multiple", expenses)
     .subscribe(
-      (data) => {
+      data => {
         this.addExpenseReturned.next(parseInt(data.toString()));
       }
     )
@@ -115,7 +121,7 @@ export class ExpensesService {
   private requestUpdateExpense(expense: Expense){
     this.httpClient.put(this.apiEndPoint, expense)
     .subscribe(
-      (data) => {
+      data => {
         this.addExpenseReturned.next(parseInt(data.toString()));
       }
     )
@@ -124,7 +130,7 @@ export class ExpensesService {
   private requestDeleteExpense(id: number){
     this.httpClient.delete(this.apiEndPoint + id)
       .subscribe(
-        (data) => {
+        data => {
           this.addExpenseReturned.next(parseInt(data.toString()));
         }
       )
@@ -139,7 +145,7 @@ export class ExpensesService {
       params: paramsObject
     }) 
       .map(
-        (expenses) => {
+        expenses => {
           this.addExpenseTypeToExpens(expenses);
           return expenses;
         }

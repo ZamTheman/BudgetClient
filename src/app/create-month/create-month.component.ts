@@ -20,12 +20,14 @@ export class CreateMonthComponent implements OnInit, OnDestroy {
   expensesChanged: Subscription;
   responseReceived: Subscription;
   salariesChanged: Subscription;
-  awaitingRespons: boolean;
-  awaitingOnMessage: string;
+  expensesRequested: Subscription;
+  errorReturned: Subscription;
   summaryTotal: number;
   summaryTotalMarie: number;
   summaryTotalSamuel: number;
   summarySamuelToMarie: number;
+  isLoading: boolean;
+  isError: boolean;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -48,8 +50,13 @@ export class CreateMonthComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(this.convertExpenseArrayForTableView(value));
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.calculateSummary(this.salaryService.getActiveSalary(), this.expensesService.expenses)
+        this.calculateSummary(this.salaryService.getActiveSalary(), this.expensesService.expenses);
+        this.isLoading = false;
       }
+    )
+
+    this.expensesRequested = this.expensesService.expensesRequestSent.subscribe(
+      () => this.isLoading = true
     )
 
     this.salariesChanged = this.salaryService.salaryChanged.subscribe(
@@ -62,13 +69,17 @@ export class CreateMonthComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.errorReturned = this.expensesService.errorReturned.subscribe(
+      () => {
+        this.isError = true;
+        this.isLoading = false;
+      }
+    )
+
     this.expenseTypeService.getExpenseTypes();
-    this.expenseTypeService.testValue = 2;
     this.monthService.activeMonthChanged(new Date());
-    this.awaitingRespons = false;
-    this.awaitingOnMessage = "";
     this.summaryTotal = this.summaryTotalMarie = this.summaryTotalSamuel = this.summarySamuelToMarie = 0;
-    this.expenseExpanded = false;
+    this.expenseExpanded = this.isError = false;
   }
 
   getCopiedExpenses(){

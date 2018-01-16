@@ -1,7 +1,9 @@
-.example-container {
+ .example-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
+    min-height: 250px;
+    background: white;
 }
 
 .example-header {
@@ -43,4 +45,25 @@ mat-row:nth-child(odd){
 
 .mat-icon-button{
     padding-top: 8px;
+}
+
+#spinnerContainer {
+    position: relative;
+}
+
+.errorContainer {
+    position: absolute;
+    padding: 10px;
+    margin-top: 150px;
+    margin-left: 50px;
+}
+
+h2, p{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+mat-spinner{
+    position: absolute;
+    left: calc(50% - 50px);
+    margin-top: 10px;
 }
