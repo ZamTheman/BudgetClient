@@ -1,0 +1,33 @@
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="5px">
+  <div fxFlex="20" fxFlex.md="30" fxFlex.xs="100" fxFlex.sm="100">
+    <mat-card>
+      <form fxLayout="column" fxLayoutGap="25px" [formGroup]="statisticsForm">
+        <mat-form-field>
+          <mat-select 
+            placeholder="År" 
+            formControlName="year"
+            (selectionChange) = "selectedYearChanged()">
+            <mat-option 
+              *ngFor="let year of years" 
+              [value]="year">{{ year }}</mat-option>
+          </mat-select> 
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select 
+            placeholder="Typ" 
+            formControlName="type"
+            (selectionChange) = "selectedTypeChanged()">
+            <mat-option 
+              *ngFor="let type of types" 
+              [value]="type">{{ type }}</mat-option>
+          </mat-select> 
+        </mat-form-field>
+      </form>
+    </mat-card>
+  </div>
+  <div class="example-container mat-elevation-z2" fxFlex="100" fxFlex.gt-sm>
+    <app-expense-chart *ngIf="statisticsType == 'Expenses'"></app-expense-chart>
+    <app-salary-chart *ngIf="statisticsType == 'Salaries'"></app-salary-chart>
+  </div>
+</div>
+

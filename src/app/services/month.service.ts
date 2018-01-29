@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 export class MonthService {
   dateChanged = new Subject<Date>();
   activeDate: Date;
+  activeStatisticsDate: Date;
   
   constructor() { 
     this.activeDate = new Date();
@@ -16,4 +17,8 @@ export class MonthService {
     this.dateChanged.next(localDate);
   }
 
+  setStatisticDate(date: Date){
+    let localDate = new Date(date.toString());
+    this.activeStatisticsDate = date;
+  }
 }

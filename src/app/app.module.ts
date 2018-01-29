@@ -48,6 +48,12 @@ import { MonthService } from './services/month.service';
 import { SplitsService } from './services/splits.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SwedishCurrencyPipe } from './shared/swedish-currency.pipe';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { ExpenseChartComponent } from './statistics/expense-chart/expense-chart.component';
+import { SalaryChartComponent } from './statistics/salary-chart/salary-chart.component';
+
+import { DxPieChartModule, DxChartModule } from 'devextreme-angular';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +65,10 @@ import { SwedishCurrencyPipe } from './shared/swedish-currency.pipe';
     MonthFormComponent,
     SalaryFormComponent,
     ExpenseTypeFormComponent,
-    SwedishCurrencyPipe
+    SwedishCurrencyPipe,
+    StatisticsComponent,
+    ExpenseChartComponent,
+    SalaryChartComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +92,9 @@ import { SwedishCurrencyPipe } from './shared/swedish-currency.pipe';
     FlexLayoutModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    DxPieChartModule,
+    DxChartModule
   ],
   providers: [
     AppSettingsService,
@@ -99,7 +110,8 @@ import { SwedishCurrencyPipe } from './shared/swedish-currency.pipe';
     ExpensesService,
     SalaryService, 
     SplitsService,
-    AppSettingsService
+    AppSettingsService,
+    SwedishCurrencyPipe
   ],
   bootstrap: [AppComponent]
 })

@@ -15,10 +15,12 @@ import { HttpHeaders } from '@angular/common/http/src/headers';
 export class ExpensesService {
   expenseChanged = new Subject<Expense>();
   expensesChanged = new Subject<Expense[]>();
+  statisticsExpensesChanged = new Subject<Expense[]>();
   addExpenseReturned = new Subject<number>();
   errorReturned = new Subject();
   expensesRequestSent = new Subject();
   monthChanged = new Subscription();
+  statisticsMonthChanged = new Subscription();
   expenses = new Array<Expense>();
   apiEndPoint: string;
 
@@ -35,12 +37,25 @@ export class ExpensesService {
     this.apiEndPoint = this.appSettingsService.apiEndpoint + "Expenses/";
   }
 
+  getExpenses(date: Date){
+    this.requestExpenses(date).subscribe(
+      data => {
+        this.statisticsExpensesChanged.next(data);
+      });
+  }
+
   getExpensesForMonth(date: Date){
     this.getData(date);
   }
 
   getExpensesForCurrentMonth(){
     this.getData();
+  }
+
+  requestExpensesForYear(date: Date){
+    this.requestExpenses(date).subscribe(
+      data => this.statisticsExpensesChanged.next(data)
+    );
   }
 
   private getData(date = new Date()){
@@ -137,22 +152,38 @@ export class ExpensesService {
   }
 
   private requestExpensesForMonth(date: Date){
-    const formatedDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-1";
-    const paramsObject = new HttpParams().set(
-      'startDate', formatedDate
-    )
-    return this.httpClient.get<Expense[]>(this.apiEndPoint, {
-      params: paramsObject
-    }) 
+    const startDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-1";
+    const endDateAsDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const endDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + endDateAsDate.getDate();
+    const paramsObject = {
+      'startDate': startDate,
+      'endDate': endDate
+    }
+    return this.httpClient.get<Expense[]>(this.apiEndPoint, { params: paramsObject }) 
       .map(
         expenses => {
-          this.addExpenseTypeToExpens(expenses);
+          this.addExpenseTypesToExpenses(expenses);
           return expenses;
         }
       )
   }
 
-  private addExpenseTypeToExpens(expenses: Expense[]): Expense[]{
+  private requestExpenses(date: Date){
+    const startDate = date.getFullYear() + "-1-1";
+    const endDate = date.getFullYear() + "-12-31";
+    const paramsObject = {
+      'startDate': startDate,
+      'endDate': endDate
+    }
+    return this.httpClient.get<Expense[]>(this.apiEndPoint, { params: paramsObject }).map(
+      expenses => {
+        this.addExpenseTypesToExpenses(expenses);
+        return expenses;
+      }
+    )
+  }
+
+  private addExpenseTypesToExpenses(expenses: Expense[]): Expense[]{
     for(let i of expenses){
       i.expenseType = this.expenseTypeService.getExpenseTypeById(i.expenseType.id);
     }

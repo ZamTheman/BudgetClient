@@ -1,0 +1,24 @@
+<mat-card (window:resize)="resize()">
+  <dx-pie-chart
+    id="pie"
+    title="Utgifter"
+    palette="bright"
+    [dataSource]="expenses"
+    (onPointClick)="pointClickHandler($event)"
+    (onLegendClick)="legendClickHandler($event)">
+    <dxi-series
+        argumentField="name"
+        valueField="amount">
+        
+    </dxi-series>
+    <dxo-size [width]="adaptiveWidth" [height]="adaptiveHeight"></dxo-size>
+    <dxo-legend verticalAlignment="bottom"
+                horizontalAlignment="center"
+                itemTextPosition="right">
+    </dxo-legend>
+    <dxo-tooltip
+        [enabled]="true"
+        [customizeTooltip]="customizeTooltip">
+    </dxo-tooltip>
+  </dx-pie-chart>
+</mat-card>

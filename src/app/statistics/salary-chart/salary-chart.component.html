@@ -1,0 +1,30 @@
+<mat-card (window:resize)="resize()">
+    <dx-chart
+    id="chart"
+    title="Löner"
+    [dataSource]="dataSource">
+    <dxi-series valueField="incomeMarie" name="Marie"></dxi-series>
+    <dxi-series valueField="incomeSamuel" name="Samuel"></dxi-series>
+    <dxo-size [width]="adaptiveWidth" [height]="adaptiveHeight"></dxo-size>
+    <dxo-common-series-settings
+        argumentField="date"
+        type="bar"
+        hoverMode="onlyPoint">
+        <dxo-label
+            [visible]="false"
+            [format]="{
+                type: 'fixedPoint',
+                precision: '0'
+            }">
+        </dxo-label>
+    </dxo-common-series-settings>
+    <dxo-legend
+        verticalAlignment="bottom"
+        horizontalAlignment="center">
+    </dxo-legend>
+    <dxo-tooltip
+        [enabled]="true"
+        [customizeTooltip]="customizeTooltip">
+    </dxo-tooltip>
+  </dx-chart>
+</mat-card>
