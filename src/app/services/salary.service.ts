@@ -17,78 +17,77 @@ export class SalaryService {
   constructor(
     private httpClient: HttpClient,
     private appSettingsService: AppSettingsService,
-    private monthService: MonthService
-  ) { 
-    this.apiEndpoint = this.appSettingsService.apiEndpoint + "Salaries/";
+    private monthService: MonthService) {
+    this.apiEndpoint = this.appSettingsService.apiEndpoint + 'Salaries';
     this.activeSalary = new Salary(null, 0, 0);
   }
 
-  getActiveSalary(){
+  getActiveSalary() {
     return this.activeSalary;
   }
 
-  getSalaries(date: Date){
+  getSalaries(date: Date) {
     this.requestSalaries(date);
   }
 
-  getSalariesForMonth(date: Date){
+  getSalariesForMonth(date: Date) {
     this.requestGetSalaryForMonth(date);
   }
 
-  requestSalariesForYear(date: Date){
-    this.requestSalaries(date);
+  requestSalariesForYear(date: Date) {
+    this.requestSalaries(date) ;
   }
 
-  addSalary(salary: Salary){
+  addSalary(salary: Salary) {
     this.requestAddSalary(salary);
   }
 
-  updateSalary(salary: Salary){
+  updateSalary(salary: Salary) {
     this.requestUpdateSalary(salary);
   }
 
-  private requestGetSalaryForMonth(date: Date){
-    const startDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-1";
+  private requestGetSalaryForMonth(date: Date) {
+    const startDate = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-1';
     const endDateAsDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const endDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + endDateAsDate.getDate();
+    const endDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + endDateAsDate.getDate();
     const paramsObject = {
       'startDate': startDate,
       'endDate': endDate
-    }
+    };
     this.httpClient.get<Salary[]>(this.apiEndpoint, { params: paramsObject })
     .subscribe(
       data => {
-        if(data !== null || data.length === 0){
+        if (data !== null || data.length === 0) {
           this.activeSalary = data[0];
           this.salaryChanged.next();
         }
       }
-    )
+    );
   }
 
-  private requestSalaries(date: Date){
-    const startDate = date.getFullYear() + "-1-1";
-    const endDate = date.getFullYear() + "-12-31";
+  private requestSalaries(date: Date) {
+    const startDate = date.getFullYear() + '-1-1';
+    const endDate = date.getFullYear() + '-12-31';
     const paramsObject = {
       'startDate': startDate,
       'endDate': endDate
     }
 
     this.httpClient.get<Salary[]>(this.apiEndpoint, { params: paramsObject }).subscribe(
-      salaries => this.salariesReceived.next(salaries))
+      salaries => this.salariesReceived.next(salaries));
   }
 
-  private requestAddSalary(salary: Salary){
+  private requestAddSalary(salary: Salary) {
     this.httpClient.post(this.apiEndpoint, salary)
     .subscribe(
       () => this.requestGetSalaryForMonth(salary.date)
-    )
+    );
   }
 
-  private requestUpdateSalary(salary: Salary){
+  private requestUpdateSalary(salary: Salary) {
     this.httpClient.put(this.apiEndpoint, salary)
     .subscribe(
       () => this.requestGetSalaryForMonth(salary.date)
-    )
+    );
   }
 }
