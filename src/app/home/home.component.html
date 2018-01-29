@@ -1,6 +1,25 @@
-<mat-card>
-  <h3>
-    If you care about the pennys the pounds will care about them self
-  </h3>
-</mat-card>
+<div fxLayout="row" fxLayoutGap="5px" fxLayout.sm="column" fxLayout.xs="column">
+  <mat-card fxFlex="50" routerLink="/createMonth">
+    <mat-card-header>
+      <h2>Utgifter</h2>
+    </mat-card-header>
+    <img mat-card-image src="..\assets\ExpensesTable.png" alt="Image of a table containing expenses">
+    <mat-card-content>
+      <p>
+        Lägg till nya utgifter, ändra gamla eller gå igenom tidigare månaders utgifter.
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex="50" routerLink="/statistics">
+    <mat-card-header>
+      <h2>Statistik</h2>
+    </mat-card-header>
+    <img mat-card-image src="..\assets\BarChart.png" alt="Image of a bar chart">
+    <mat-card-content>
+      <p>
+        Titta på statistik över utgifter och löner årsvis
+      </p>
+    </mat-card-content>
+  </mat-card>      
+</div>
 

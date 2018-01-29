@@ -1,0 +1,36 @@
+img{
+    max-height: 300px;
+    max-width: 450px;
+
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+mat-card-title{
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: blue;
+}
+
+
+mat-card{
+    padding: 0;
+    cursor: pointer;
+}
+
+mat-card-content{
+    padding: 10px;
+}
+
+h2{
+    width: 100%;
+    text-align: center;
+}
+
+p{
+    font-size: 15px;
+}
