@@ -71,13 +71,19 @@ export class SalaryService {
     const paramsObject = {
       'startDate': startDate,
       'endDate': endDate
-    }
+    };
 
     this.httpClient.get<Salary[]>(this.apiEndpoint, { params: paramsObject }).subscribe(
       salaries => this.salariesReceived.next(salaries));
   }
 
   private requestAddSalary(salary: Salary) {
+    if (salary.incomeMarie == null) {
+      salary.incomeMarie = 0;
+    }
+    if (salary.incomeSamuel == null) {
+      salary.incomeSamuel = 0;
+    }
     this.httpClient.post(this.apiEndpoint, salary)
     .subscribe(
       () => this.requestGetSalaryForMonth(salary.date)
@@ -85,6 +91,12 @@ export class SalaryService {
   }
 
   private requestUpdateSalary(salary: Salary) {
+    if (salary.incomeMarie == null) {
+      salary.incomeMarie = 0;
+    }
+    if (salary.incomeSamuel == null) {
+      salary.incomeSamuel = 0;
+    }
     this.httpClient.put(this.apiEndpoint, salary)
     .subscribe(
       () => this.requestGetSalaryForMonth(salary.date)
