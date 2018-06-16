@@ -84,10 +84,15 @@ export class SalaryService {
     if (salary.incomeSamuel == null) {
       salary.incomeSamuel = 0;
     }
-    this.httpClient.post(this.apiEndpoint, salary)
-    .subscribe(
-      () => this.requestGetSalaryForMonth(salary.date)
-    );
+    // Using toString conversion to avoid that client send UTC times
+    this.httpClient.post(this.apiEndpoint, {
+      id: salary.id,
+      incomeMarie: salary.incomeMarie,
+      incomeSamuel: salary.incomeSamuel,
+      date: salary.date.toLocaleDateString()})
+      .subscribe(
+        () => this.requestGetSalaryForMonth(salary.date)
+      );
   }
 
   private requestUpdateSalary(salary: Salary) {
@@ -97,9 +102,14 @@ export class SalaryService {
     if (salary.incomeSamuel == null) {
       salary.incomeSamuel = 0;
     }
-    this.httpClient.put(this.apiEndpoint, salary)
-    .subscribe(
-      () => this.requestGetSalaryForMonth(salary.date)
-    );
+    // Using toString conversion to avoid that client send UTC times
+    this.httpClient.put(this.apiEndpoint, {
+      id: salary.id,
+      incomeMarie: salary.incomeMarie,
+      incomeSamuel: salary.incomeSamuel,
+      date: salary.date.toLocaleDateString()})
+      .subscribe(
+        () => this.requestGetSalaryForMonth(salary.date)
+      );
   }
 }
