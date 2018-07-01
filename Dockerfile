@@ -1,4 +1,4 @@
-FROM node:10 as build-stage
+FROM node as build-stage
 
 WORKDIR /app
 
@@ -12,5 +12,5 @@ ARG configuration=production
 
 RUN npm run build -- --output-path=./dist/out --configuration $configuration
 
-FROM nginx:1.15
+FROM nginx
 COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
