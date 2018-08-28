@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export class AppSettings{
+export class AppSettings {
     apiEndpoint: string;
 }

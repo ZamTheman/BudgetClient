@@ -5,11 +5,10 @@ import { HttpClient } from '@angular/common/http';
 export class AppSettingsService {
   apiEndpoint: string;
 
-  constructor(private httpClient: HttpClient){
-  }
-  
+  constructor(private httpClient: HttpClient) {}
+
   public loadSettings(): Promise<any> {
-    return this.httpClient.get("./assets/appSettingsDev.json")
+    return this.httpClient.get('./assets/appSettingsDev.json')
       .toPromise()
       .then(res => this.apiEndpoint = res['apiEndpoint']);
   }
