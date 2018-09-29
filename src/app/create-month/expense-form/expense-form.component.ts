@@ -24,11 +24,10 @@ export class ExpenseFormComponent implements OnInit, OnDestroy {
   awaitingOnMessage: string;
 
   constructor(
-    private expenseTypeService: ExpenseTypeService, 
+    private expenseTypeService: ExpenseTypeService,
     private expenseService: ExpensesService,
-    private splitsService: SplitsService) { 
+    private splitsService: SplitsService) {
     }
-    
     ngOnInit() {
       this.expenseChanged = this.expenseService.expenseChanged.subscribe(
       value => this.updateForm(value)
@@ -42,7 +41,7 @@ export class ExpenseFormComponent implements OnInit, OnDestroy {
       this.responseReceived = this.expenseService.addExpenseReturned.subscribe(value => {
       this.expenseForm = this.createForm();
       this.awaitingData = false;
-      this.awaitingOnMessage = "";
+      this.awaitingOnMessage = '';
       });
       this.splits = this.splitsService.splits;
       this.expenseForm = this.createForm(null);
@@ -53,37 +52,37 @@ export class ExpenseFormComponent implements OnInit, OnDestroy {
     this.expenseChanged.unsubscribe();
   }
 
-  onExpenseSubmit(){
-    let expense = this.convertExpenseFormToExpense()
+  onExpenseSubmit() {
+    const expense = this.convertExpenseFormToExpense();
     // If it is a new expense, request to add a new else update existing
-    if(expense.id < 1){
+    if (expense.id < 1) {
       this.expenseService.addExpense(expense);
-      this.awaitingOnMessage = "Sparar utgift";
+      this.awaitingOnMessage = 'Sparar utgift';
       this.awaitingData = true;
     } else {
       this.expenseService.updateExpense(expense);
-      this.awaitingOnMessage = "Uppdaterar utgift";
+      this.awaitingOnMessage = 'Uppdaterar utgift';
       this.awaitingData = true;
     }
   }
 
-  onNewExpense(){
+  onNewExpense() {
     this.expenseForm = this.createForm();
   }
 
-  onDeleteExpense(){
+  onDeleteExpense() {
     // Send request to delete expense if the expenseform have a value. Else it is a new expense and does not exist in db. 
-    if(this.expenseForm.value['id'] > 0){
+    if (this.expenseForm.value['id'] > 0) {
       this.expenseService.deleteExpense(this.expenseForm.value['id']);
     }
     this.expenseForm = this.createForm();
   }
 
-  updateForm(expense: Expense){
+  updateForm(expense: Expense) {
     this.expenseForm = this.createForm(expense);
   }
 
-  createForm(expense: Expense = null){
+  createForm(expense: Expense = null) {
     return new FormGroup({
       'id': new FormControl(expense ? expense.id : null),
       'expenseType': new FormControl(expense ? expense.expenseType.id : null, Validators.required),
@@ -93,11 +92,15 @@ export class ExpenseFormComponent implements OnInit, OnDestroy {
       'comment': new FormControl(expense ? expense.comment : null),
       'copyWithAmount': new FormControl(expense ? expense.copyWithAmount : false),
       'copyWithoutAmount': new FormControl(expense ? expense.copyWithoutAmount : false)
-    })
+    });
   }
 
-  convertExpenseFormToExpense(){
-    let expense = new Expense(
+  amountClicked() {
+    console.log('clicked');
+  }
+
+  convertExpenseFormToExpense() {
+    const expense = new Expense(
       this.expenseTypeService.getExpenseTypeById(this.expenseForm.value['expenseType']),
       this.expenseForm.value['amount'],
       this.expenseForm.value['split'],
@@ -107,10 +110,16 @@ export class ExpenseFormComponent implements OnInit, OnDestroy {
       this.expenseForm.value['copyWithoutAmount']
     );
 
-    if(this.expenseForm.value['id'] > 0){
+    if (this.expenseForm.value['id'] > 0) {
       expense.id = this.expenseForm.value['id'];
     }
 
     return expense;
+  }
+
+  onAmountClicked() {
+    if (this.expenseForm.controls.amount.value === 0) {
+      this.expenseForm.controls.amount.setValue(null);
+    }
   }
 }
