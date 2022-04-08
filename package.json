@@ -28,7 +28,7 @@
     "core-js": "^2.4.1",
     "devextreme": "^17.2.4",
     "devextreme-angular": "^17.2.4",
-    "moment": "^2.20.1",
+    "moment": "^2.29.2",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },
